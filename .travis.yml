@@ -6,9 +6,3 @@ scala:
 
 jdk:
   - oraclejdk8
-
-cache:
-  directories:
-    - $HOME/.m2/repository
-    - $HOME/.sbt
-    - $HOME/.ivy2
