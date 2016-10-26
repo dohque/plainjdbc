@@ -1,6 +1,6 @@
 package com.dohque.plainjdbc
 
-import java.sql.{Connection, PreparedStatement}
+import java.sql.{ResultSet, Connection, PreparedStatement}
 import javax.sql.DataSource
 
 import scala.util.Try
@@ -15,22 +15,22 @@ trait JdbcStore extends HasDataSource {
       }
     }.flatten
 
+  def queryMap(sql: String, params: Seq[Any]): Try[List[Map[String, Any]]] =
+    query[Map[String, Any]](sql, params) { resultSet: ResultSet =>
+      val metaData = resultSet.getMetaData
+      (for (i <- 1 to metaData.getColumnCount)
+        yield metaData.getColumnName(i) -> resultSet.getObject(i)
+      ).toMap
+    }
 
-  def query(sql: String, params: Seq[Any]): Try[List[Map[String, Any]]] =
+  def query[T](sql: String, params: Seq[Any])(rowMapper: ResultSet => T): Try[List[T]] =
     withConnection { implicit connection =>
       withPreparedStatement(sql) { preparedStatement =>
         setParams(preparedStatement, params)
         val resultSet = preparedStatement.executeQuery
         try {
           Iterator.continually((resultSet.next(), resultSet))
-            .takeWhile(_._1).map {
-            case (_, resultSet) =>
-              val metaData = resultSet.getMetaData
-              (
-                for (i <- 1 to metaData.getColumnCount)
-                  yield metaData.getColumnName(i) -> resultSet.getObject(i)
-                ).toMap
-          }.toList
+            .takeWhile(_._1).map(_._2).map(rowMapper).toList
         } finally {
           resultSet.close
         }

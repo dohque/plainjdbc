@@ -78,7 +78,7 @@ object JdbcStoreTest extends Specification with Mockito {
         """.stripMargin
       )
       update("insert into Orders (id, item_id) values (1, 42)")
-      val result = query("select * from Orders where id = ?", List(1))
+      val result = queryMap("select * from Orders where id = ?", List(1))
       result.get must be equalTo(List(Map("id" -> 1, "item_id" -> 42)))
     }
   }
