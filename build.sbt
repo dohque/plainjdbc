@@ -24,6 +24,8 @@ libraryDependencies ++= Seq(
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
+publishMavenStyle := true
+
 publishTo := Some("Artifactory Realm" at "https://oss.jfrog.org/artifactory/oss-snapshot-local")
 
 pomExtra := (

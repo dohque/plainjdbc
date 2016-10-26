@@ -1,7 +1,17 @@
 # plainjdbc
 
+[![Build Status](https://travis-ci.org/dohque/plainjdbc.svg?branch=master)](https://travis-ci.org/dohque/plainjdbc)
+
 Small Scala library inspired by Spring JdbcTemplate to execute generated sql statements over plain jdbc.
 This library has no dependencies and is extremely easy to use.
+
+Just add PlainJDBC dependency to your build.sbt.
+
+```
+ "com.dohque" %% "plainjdbc" % "0.1-SNAPSHOT"
+```
+
+And start using it.
 
 ```scala
 
