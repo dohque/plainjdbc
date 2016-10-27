@@ -26,6 +26,8 @@ licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
 publishMavenStyle := true
 
+pomIncludeRepository := { _ => false }
+
 publishTo := Some("Artifactory Realm" at "https://oss.jfrog.org/artifactory/oss-snapshot-local")
 
 pomExtra := (
