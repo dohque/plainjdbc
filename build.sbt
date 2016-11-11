@@ -13,6 +13,8 @@ scalaVersion := "2.11.8"
 
 javacOptions := Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-language:existentials", "-language:higherKinds")
+
 scalacOptions in Test ++= Seq("-Yrangepos")
 
 libraryDependencies ++= Seq(
@@ -29,6 +31,8 @@ publishMavenStyle := true
 pomIncludeRepository := { _ => false }
 
 publishTo := Some("Artifactory Realm" at "https://oss.jfrog.org/artifactory/oss-snapshot-local")
+
+bintrayReleaseOnPublish := false
 
 pomExtra := (
     <scm>
